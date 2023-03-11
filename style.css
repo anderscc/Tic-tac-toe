@@ -4,17 +4,28 @@
 
 html {
     font-size: 100%;
+    background-color: beige;
 }
 
+h1{
+    width: 80%;
+    text-align: center;
+    text-decoration: underline;
+}
+
+button{
+    margin: 0 0 50px 0;
+}
 
 .board{
     display: flex;
-    border: 2px solid black;
+    /* border: 2px solid black; */
     height: 85vh;
     width: 85vw;
     flex-wrap: wrap;
 
 }
+
 .cell{
     border: 2px solid gray;
     display: flex;
@@ -24,11 +35,16 @@ html {
 }
 
 .row{
-    width: 85rem;
-    border: 2px solid red;
+    width: 100%;
+    /* border: 2px solid red; */
     display: flex;
     justify-content: center;
     align-content: center;
     align-items: stretch
 }
 
+.score{
+    width: 80%;
+    display:flex;
+    justify-content: space-around;
+}

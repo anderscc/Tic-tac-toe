@@ -6,6 +6,9 @@ resultCheck=false;
 player1= true;
 player2 = false;
 
+localStorage.setItem('Player 1', '0')
+localStorage.setItem('player 2', '0')
+
 //get all Cells
 const allCells = document.getElementsByClassName("cell");
 
@@ -21,33 +24,33 @@ restartButton.addEventListener("click", restartGame)
 //needs to be revised to prevent duplicate plays
 function addMove(e){
     position = e.target.dataset.value
-    switchTurns(e);
-    switchTurn = updateScore(position)
-    !switchTurn ? switchTurns(e) : null
-    if(this.player1){
-        this.resultCheck = checkWin(player1Results)
-        this.resultCheck ? endGame("Player 1") : null
+    scoreExistsAlready = updateScore(position)
+    
+    if(player1){
+        resultCheck = checkWin(player1Results)
+        resultCheck ? endGame("Player 1") : null
     }else{
-        this.resultCheck = checkWin(player2Results)
-        this.resultCheck ? endGame("Player 2") : null
+        resultCheck = checkWin(player2Results)
+        resultCheck ? endGame("Player 2") : null
     }
+    !scoreExistsAlready ? switchTurns(e) : null
 }
 
 function switchTurns(e){
-    if(this.player1){
-        this.player2=this.player1
-        this.player1=!this.player2
+    if(player1){
+        player2=player1
+        player1=!player2
         e.target.innerText = "X"
     }else{
-        this.player1=this.player2
-        this.player2=!this.player1 
+        player1=player2
+        player2=!player1 
         e.target.innerText="O"
     }
 }
 
 function updateScore(score){
     checkIfExists = (player1Results.includes(String(score)) || player2Results.includes(String(score)))
-    if(this.player1){
+    if(player1){
         checkIfExists ? alert("Select new score") : player1Results.push(String(score)) 
     }else{
         checkIfExists ? alert("Select new score") : player2Results.push(String(score))
@@ -56,10 +59,14 @@ function updateScore(score){
 }
 
 function checkWin(playerResultsArray){
+    player = []
     playerResultsArray.sort()
-    player=playerResultsArray.join("")
+    var player=playerResultsArray.join("")
+    console.log(player1, player)
+    console.log(player2, player)
     var result;
     tempMap = {}
+
     if (player.length>2){
         for(i=0; i < player.length-1;i++){
             result = winningRows.includes(player.substr(i,i+3))
@@ -67,8 +74,18 @@ function checkWin(playerResultsArray){
                 return result
             }
         }
+        if(player.length==5 && result!=true){
+            checkDraw()
+        }
     }
     return result
+}
+
+function checkDraw(){
+    for (let cell of allCells) {
+        cell.removeEventListener("click", addMove);
+    }
+    alert("The game ended in a draw")
 }
 
 function displayWin(player){
@@ -89,8 +106,16 @@ function endGame(playerId){
     for (let cell of allCells) {
         cell.removeEventListener("click", addMove);
     }
+    localScoreTrack(playerId)
     displayWin(playerId)
-    
+}
+
+function localScoreTrack(playerId){
+    total=+localStorage.getItem(playerId) + 1
+    localStorage.setItem(playerId, total)
+
+    playerId == "Player 1" ? 
+        document.querySelector('#player1-score').innerText=total : document.querySelector('#player1-score').innerText=total
 }
 
 function resetGameData(){
