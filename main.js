@@ -6,21 +6,24 @@ resultCheck=false;
 player1= true;
 player2 = false;
 
-
+//get all Cells
 const allCells = document.getElementsByClassName("cell");
+
 for (let cell of allCells) {
     cell.addEventListener("click", addMove);
   }
 
-  
+//button to restart game with event listener to restart game
 restartButton = document.querySelector('button');
 restartButton.addEventListener("click", restartGame)
 
-
+//adds a move selected by player
+//needs to be revised to prevent duplicate plays
 function addMove(e){
     position = e.target.dataset.value
     switchTurns(e);
-    this.player1 ? updateScore( position) : updateScore(position)
+    switchTurn = updateScore(position)
+    !switchTurn ? switchTurns(e) : null
     if(this.player1){
         this.resultCheck = checkWin(player1Results)
         this.resultCheck ? endGame("Player 1") : null
@@ -43,7 +46,13 @@ function switchTurns(e){
 }
 
 function updateScore(score){
-    this.player1 ? player1Results.push(String(score)) : player2Results.push(String(score))
+    checkIfExists = (player1Results.includes(String(score)) || player2Results.includes(String(score)))
+    if(this.player1){
+        checkIfExists ? alert("Select new score") : player1Results.push(String(score)) 
+    }else{
+        checkIfExists ? alert("Select new score") : player2Results.push(String(score))
+    }
+    return checkIfExists
 }
 
 function checkWin(playerResultsArray){
