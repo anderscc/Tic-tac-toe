@@ -4,13 +4,26 @@
     background-color: blanchedalmond;
   }
   
-  
-  :root {
+.score{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+h2, h1{
+    text-align: center;
+    text-decoration: underline;
+}
+
+.container{
+    width: 90%;
+}
+
+:root {
     --cell-size: 100px;
     --mark-size: calc(var(--cell-size) * .9);
   }
   
-  .board {
+.board {
     width: 100%;
     height: 100%;
     margin-top: 5rem;
@@ -64,11 +77,6 @@
     background-color: black;
   }
   
-  .board.x .cell:not(.x):not(.circle):hover::before,
-  .board.x .cell:not(.x):not(.circle):hover::after,
-  .board.circle .cell:not(.x):not(.circle):hover::before {
-    background-color: lightgrey;
-  }
   
   .cell.x::before,
   .cell.x::after,
@@ -109,19 +117,5 @@
   .board.circle .cell:not(.x):not(.circle):hover::after {
     width: calc(var(--mark-size) * .7);
     height: calc(var(--mark-size) * .7);
-    background-color: white;
   }
 
-.score{
-    display: flex;
-    justify-content: space-evenly;
-}
-
-h2, h1{
-    text-align: center;
-    text-decoration: underline;
-}
-
-.container{
-    width: 90%;
-}

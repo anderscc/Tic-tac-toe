@@ -51,10 +51,8 @@ function switchTurns(e){
 
 function placeMark(e){
     if(player1){
-        e.target.innerText = "X"
         e.target.classList.add('x')
     }else{
-        e.target.innerText="O"
         e.target.classList.add('circle')
     }
 }
