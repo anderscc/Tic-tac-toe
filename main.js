@@ -37,14 +37,25 @@ function addMove(e){
 }
 
 function switchTurns(e){
+    placeMark(e)
     if(player1){
         player2=player1
         player1=!player2
-        e.target.innerText = "X"
+
     }else{
         player1=player2
         player2=!player1 
+
+    }
+}
+
+function placeMark(e){
+    if(player1){
+        e.target.innerText = "X"
+        e.target.classList.add('x')
+    }else{
         e.target.innerText="O"
+        e.target.classList.add('circle')
     }
 }
 
@@ -59,27 +70,33 @@ function updateScore(score){
 }
 
 function checkWin(playerResultsArray){
-    player = []
+    var player = []
     playerResultsArray.sort()
-    var player=playerResultsArray.join("")
-    console.log(player1, player)
-    console.log(player2, player)
+    player=playerResultsArray.join("")
     var result;
-    tempMap = {}
+    var gameOver=false;
 
     if (player.length>2){
         for(i=0; i < player.length-1;i++){
-            result = winningRows.includes(player.substr(i,i+3))
-            if(result==true){
-                return result
-            }
+            winningRows.some(combination => {
+                var tempTruth=0
+                for(var j=0; j < combination.length;j++){      
+                    tempTruth+=player.includes(combination[j])
+                    if(tempTruth===3){
+                        gameOver=true
+                        break
+                    }
+                }
+            })
         }
-        if(player.length==5 && result!=true){
+        if(player.length==5 && gameOver!=true){
             checkDraw()
         }
     }
-    return result
+    return gameOver
 }
+
+
 
 function checkDraw(){
     for (let cell of allCells) {
@@ -95,6 +112,8 @@ function displayWin(player){
 function restartGame(){
     for(let cell of allCells){
         cell.innerText=""
+        cell.classList.remove('x')
+        cell.classList.remove('circle')
     }
     for (let cell of allCells) {
         cell.addEventListener("click", addMove);
