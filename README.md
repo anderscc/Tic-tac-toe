@@ -1,4 +1,4 @@
-# Tic-tac-toe
+# Tic-Tac-Toe
 
 Simple Tic-Tac-Toe game that allows two players to play a classic game of Tic-Tac-Toe.
 
